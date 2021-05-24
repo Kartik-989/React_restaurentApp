@@ -86,8 +86,8 @@ class Contact extends Component {
                         <h3>Send us your feedback</h3>
                     </div>
                     <div className="cpl-12 col-md-9">
-                    <Form modal="feedback" onSubmit={(values) => this.handleSubmit(values)}>
-                    <Row className="form-group">
+                    <Form model="feedback" onSubmit={(values) => this.handleSubmit(values)}>
+                        <Row className="form-group">
                                 <Label htmlFor="firstname" md={2}>First Name</Label>
                                 <Col md={10}>
                                     <Control.text model=".firstname" id="firstname" name="firstname"
