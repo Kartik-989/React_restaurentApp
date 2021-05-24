@@ -3,6 +3,7 @@ import { Card, CardImg, CardText, CardBody, CardTitle, Breadcrumb, BreadcrumbIte
          Modal, ModalBody, Label,Row,Col, ModalHeader } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import {Control, LocalForm, Errors} from 'react-redux-form';
+import { Loading } from './LoadingComponent';
 
 
 const required = (val) => val && val.length;
@@ -32,6 +33,8 @@ class CommentForm extends Component{
         console.log('Current State is: ' + JSON.stringify(values));
         alert('Current State is: ' + JSON.stringify(values));
         //event.preventDefault();
+        this.props.addComment(this.props.dishId, values.rating, values.author, values.comment);
+
     }
     
 
@@ -87,9 +90,9 @@ class CommentForm extends Component{
                                 </Col>
                             </Row>
                             <Row className="form-group">
-                                <Label htmlFor="message" md={4}>Your Feedback</Label>
+                                <Label htmlFor="comment" md={4}>Your Feedback</Label>
                                 <Col md={12}>
-                                    <Control.textarea model=".message" id="message" name="message"
+                                    <Control.textarea model=".comment" id="comment" name="comment"
                                         rows="6"
                                         className="form-control" 
                                         validators={{
@@ -97,7 +100,7 @@ class CommentForm extends Component{
                                         }}/>
                                         <Errors
                                         className="text-danger"
-                                        model=".message"
+                                        model=".comment"
                                         show="touched"
                                         messages={{
                                             required: 'Required '
@@ -137,7 +140,8 @@ function RenderDish({dish}){
     );  
 }
 
-    function RenderComments({comments}){
+    function RenderComments({comments, addComment, dishId}){
+        
         if(comments != null){
             return(
             <div  className="col-12 col-md-5 m-1">
@@ -152,7 +156,7 @@ function RenderDish({dish}){
                     );
                 })}
                 </ul> 
-                <CommentForm />
+                <CommentForm dishId={dishId} addComment={addComment}/>
             </div>
             );
         } 
@@ -165,7 +169,25 @@ function RenderDish({dish}){
 
     const Dishdetail = (props) =>{
         
-        if(props.dish != null)
+        if (props.isLoading) {
+            return(
+                <div className="container">
+                    <div className="row">            
+                        <Loading />
+                    </div>
+                </div>
+            );
+        }
+        else if (props.errMess) {
+            return(
+                <div className="container">
+                    <div className="row">            
+                        <h4>{props.errMess}</h4>
+                    </div>
+                </div>
+            );
+        }
+        else if(props.dish != null)
         {
             
             
@@ -184,7 +206,10 @@ function RenderDish({dish}){
                 </div>
                 <div className="row">
                     <RenderDish dish={props.dish} />
-                    <RenderComments comments={props.comments} />
+                    <RenderComments comments={props.comments}
+                        addComment={props.addComment}
+                        dishId={props.dish.id}
+                    />
                     
                 </div>
                 </div>
