@@ -1,14 +1,16 @@
 import { func } from 'prop-types';
 import React from 'react';
 import { Media } from 'reactstrap';
+import { baseUrl } from '../shared/baseUrl';
 
 function RenderLeader(props){
+    
 
     return(
         <Media className="row">
             
             <Media left className="col-12 col-md-2 ">
-                <img src={props.leader.image} alt={props.leader.abbr}/>
+                <img src={baseUrl+props.leader.image} alt={props.leader.abbr}/>
             </Media>
             
            
