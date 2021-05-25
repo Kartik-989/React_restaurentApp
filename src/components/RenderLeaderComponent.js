@@ -1,4 +1,3 @@
-import { func } from 'prop-types';
 import React from 'react';
 import { Media } from 'reactstrap';
 import { baseUrl } from '../shared/baseUrl';
